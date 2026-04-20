@@ -1,0 +1,16 @@
+{
+  "short_name": "PanDiet",
+  "name": "PanDa's 增肌減脂助手",
+  "icons": [
+    {
+      "src": "icon.png", // 確保檔案名稱與你那張 512x512 的貓熊圖一致
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#0f172a", // 頂部狀態列顏色 (對應你的 Slate-900)
+  "background_color": "#0f172a" // 啟動畫面的背景顏色
+}
