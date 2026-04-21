@@ -16,19 +16,19 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&family=Montserrat:wght@700;900&display=swap');
         body { font-family: 'Noto Sans TC', sans-serif; background-color: #f8fafc; letter-spacing: -0.01em; }
-        .font-montserrat { font-family: 'Montserrat', sans-serif; }
-        .glass-dark { background: rgba(15, 23, 42, 0.98); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1); }
-        .bento-card { border-radius: 2.5rem; background: white; border: 1px solid #f1f5f9; box-shadow: 0 4px 20px rgba(0,0,0,0.03); }
-        .mode-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #94a3b8; transition: 0.3s; border-radius: 1rem; }
-        .mode-active { background-color: #ffffff !important; color: #0f172a !important; font-weight: 900 !important; transform: scale(1.05); }
-        .nav-capsule { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); width: 280px; padding: 8px; background: rgba(15, 23, 42, 0.95); border-radius: 2rem; display: flex; z-index: 100; border: 1px solid rgba(255,255,255,0.1); }
-        .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; color: #64748b; transition: 0.3s; }
-        .nav-item.active { color: #10b981; }
-        .progress-bar { transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        。font-montserrat { font-family: 'Montserrat', sans-serif; }
+        。glass-dark { background: rgba(15, 23, 42, 0.98); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1); }
+        。bento-card { border-radius: 2.5rem; background: white; border: 1px solid #f1f5f9; box-shadow: 0 4px 20px rgba(0,0,0,0.03); }
+        。mode-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #94a3b8; transition: 0.3s; border-radius: 1rem; }
+        。mode-active { background-color: #ffffff !important; color: #0f172a !important; font-weight: 900 !important; transform: scale(1.05); }
+        。nav-capsule { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); width: 280px; padding: 8px; background: rgba(15, 23, 42, 0.95); border-radius: 2rem; display: flex; z-index: 100; border: 1px solid rgba(255,255,255,0.1); }
+        。nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; color: #64748b; transition: 0.3s; }
+        。nav-item.active { color: #10b981; }
+        。progress-bar { transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); }
         @keyframes alert-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
-        .bar-overlimit { animation: alert-pulse 0.8s infinite !important; background-color: #ef4444 !important; }
-        .bar-warning { background-color: #f97316 !important; }
-        .btn-interact:active { transform: scale(0.94); }
+        。bar-overlimit { animation: alert-pulse 0.8s infinite !important; background-color: #ef4444 !important; }
+        。bar-warning { background-color: #f97316 !important; }
+        。btn-interact:active { transform: scale(0.94); }
     </style>
 </head>
 <body class="pb-32 text-left">
@@ -175,6 +175,7 @@
 
     const defaultMeals = {
         'sub-std': { n: 'Subway 鮮嫩雞柳', c: 350, p: 25, carb: 45 },
+        'sub-egg': { n: 'Subway 鮮嫩雞柳家嫩煎蛋', c: 382, p: 32.3, carb: 45 },
         'sub-double': { n: 'Subway 鮮嫩雞柳加肉', c: 480, p: 45, carb: 48 },
         'sub-beef': { n: 'Subway 嫩牛加嫩煎蛋', c: 520, p: 35, carb: 50 },
         'sukiya': { n: 'Sukiya 肉大碗+湯+菜', c: 1050, p: 40, carb: 120 },
@@ -187,6 +188,7 @@
 
     const defaultDrinks = {
         'gg-1': { n: '果果蛋白 1份', c: 102.5, p: 18.4, carb: 3 },
+        'gg-15': { n: '果果蛋白 1.5份', c: 153.8, p: 27.6, carb: 4.5 },
         'gg-2': { n: '果果蛋白 2份', c: 205, p: 36.8, carb: 6 },
         'baseu': { n: 'BASE&U 紅茶牛乳', c: 148.8, p: 22.2, carb: 9.6 },
         'soy': { n: '濃豆漿', c: 190, p: 19.1, carb: 7.9 },
