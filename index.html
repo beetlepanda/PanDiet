@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PanDa Fit AI - V28 (Fix: Auto-Reset)</title>
+    <title>PanDiet AI - V36 Final</title>
     
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="PanDiet">
@@ -13,14 +13,14 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&family=Montserrat:wght@700;900&display=swap');
-        body { font-family: 'Noto Sans TC', sans-serif; background-color: #f8fafc; }
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: #f8fafc; text-align: left; }
         .font-montserrat { font-family: 'Montserrat', sans-serif; }
         .glass-dark { background: rgba(15, 23, 42, 0.98); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1); }
         .bento-card { border-radius: 2.5rem; background: white; border: 1px solid #f1f5f9; box-shadow: 0 4px 20px rgba(0,0,0,0.03); }
         .mode-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #94a3b8; transition: 0.3s; border-radius: 1rem; }
         .mode-active { background-color: #ffffff !important; color: #0f172a !important; font-weight: 900 !important; transform: scale(1.05); }
         .nav-capsule { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); width: 280px; padding: 8px; background: rgba(15, 23, 42, 0.95); border-radius: 2rem; display: flex; z-index: 100; border: 1px solid rgba(255,255,255,0.1); }
-        .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; color: #64748b; }
+        .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; color: #64748b; font-size: 9px; font-weight: 900; }
         .nav-item.active { color: #10b981; }
         .progress-bar { transition: width 0.8s ease-in-out; }
         @keyframes alert-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
@@ -28,7 +28,7 @@
         .bar-warning { background-color: #f97316 !important; }
     </style>
 </head>
-<body class="pb-32 text-left">
+<body class="pb-32">
     <div class="max-w-md mx-auto min-h-screen relative px-4 pt-6">
         
         <div id="page-home" class="space-y-4 block">
@@ -43,7 +43,7 @@
                 <div class="flex items-center justify-between bg-white/5 p-4 rounded-[1.5rem] border border-white/10">
                     <div class="flex flex-col text-left">
                         <span class="text-xs font-black uppercase text-emerald-300 italic">增加有氧</span>
-                        <span class="text-[9px] text-slate-400">多做 40min 消耗約 250kcal</span>
+                        <span class="text-[9px] text-slate-400">+40min (250kcal)</span>
                     </div>
                     <button id="btn-cardio" onclick="toggleCardio()" class="bg-slate-700 w-12 h-6 rounded-full relative transition-all">
                         <div id="cardio-circle" class="absolute top-1 left-1 bg-white w-4 h-4 rounded-full transition-all"></div>
@@ -53,16 +53,16 @@
 
             <div class="bento-card p-5 flex items-center gap-4">
                 <div class="w-12 h-12 bg-slate-900 rounded-2xl flex items-center justify-center text-2xl" id="coach-emoji">💪</div>
-                <div class="flex-1">
-                    <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest block italic mb-1">Coach Vision</span>
-                    <p id="coach-text" class="text-slate-800 text-sm font-bold italic">載入教練建議中...</p>
+                <div class="flex-1 text-left">
+                    <span class="text-[9px] font-black text-slate-400 uppercase italic mb-1 block">Coach Vision</span>
+                    <p id="coach-text" class="text-slate-800 text-sm font-bold italic">載入建議中...</p>
                 </div>
             </div>
 
-            <div class="bento-card p-6 space-y-6">
+            <div class="bento-card p-6 space-y-6 text-left">
                 <div>
-                    <div class="flex justify-between items-end mb-2">
-                        <span class="font-black text-[10px] text-slate-400 uppercase italic">Target Calories <span id="tdee-label" class="text-emerald-500 ml-1"></span></span>
+                    <div class="flex justify-between items-end mb-2 italic">
+                        <span class="font-black text-[10px] text-slate-400 uppercase">Target <span id="tdee-label" class="text-emerald-500"></span></span>
                         <span id="calories-text" class="font-montserrat text-2xl font-black">0 / 0</span>
                     </div>
                     <div class="w-full bg-slate-100 rounded-full h-4 overflow-hidden"><div id="calories-bar" class="h-full progress-bar bg-emerald-500" style="width: 0%"></div></div>
@@ -78,13 +78,13 @@
                     <div class="bg-amber-50/50 p-4 rounded-3xl border border-amber-100/50">
                         <div class="flex justify-between items-end mb-1">
                             <span class="text-[10px] font-black text-amber-500 uppercase">Carbs</span>
-                            <span id="carbs-text" class="font-montserrat font-black text-amber-600 text-sm">0 / 0g</span>
+                            <span id="carbs-text" class="font-montserrat font-black text-amber-600 text-sm">0g</span>
                         </div>
                         <div class="w-full bg-white/50 rounded-full h-2 overflow-hidden"><div id="carbs-bar" class="h-full progress-bar bg-amber-500" style="width: 0%"></div></div>
                     </div>
                     <div class="bg-cyan-50/50 p-4 rounded-3xl border border-cyan-100/50">
                         <div class="flex justify-between items-end mb-1">
-                            <span class="text-[10px] font-black text-cyan-500 uppercase">Hydration</span>
+                            <span class="text-[10px] font-black text-cyan-500 uppercase italic">Hydration</span>
                             <span id="water-text" class="font-montserrat font-black text-cyan-600 text-sm">0 / 3000ml</span>
                         </div>
                         <div class="w-full bg-white/50 rounded-full h-2 overflow-hidden"><div id="water-bar" class="h-full progress-bar bg-cyan-400" style="width: 0%"></div></div>
@@ -95,89 +95,85 @@
             <div class="space-y-4">
                 <button onclick="addWater(500)" class="w-full bg-cyan-500 text-white py-5 rounded-[2rem] font-black text-sm uppercase shadow-xl">💧 + 500ml 快速補水</button>
                 <div class="flex gap-3">
-                    <select id="meal-select" class="flex-1 bg-white border border-slate-100 rounded-2xl px-5 py-4 text-sm font-bold shadow-sm outline-none"></select>
+                    <select id="meal-select" class="flex-1 bg-white border border-slate-100 rounded-2xl px-5 py-4 text-sm font-bold outline-none"></select>
                     <button onclick="recordMeal()" class="bg-slate-900 text-white px-6 rounded-2xl text-[11px] font-black uppercase">Add</button>
                 </div>
                 <div class="flex gap-3">
-                    <select id="drink-select" class="flex-1 bg-white border border-slate-100 rounded-2xl px-5 py-4 text-sm font-bold shadow-sm outline-none"></select>
+                    <select id="drink-select" class="flex-1 bg-white border border-slate-100 rounded-2xl px-5 py-4 text-sm font-bold outline-none"></select>
                     <button onclick="recordDrink()" class="bg-slate-900 text-white px-6 rounded-2xl text-[11px] font-black uppercase">Add</button>
                 </div>
 
-                <div class="bento-card p-6 text-center">
-                    <span class="text-[10px] font-black text-slate-300 uppercase tracking-widest mb-4 block italic">AI Smart Recognition</span>
-                    <div id="ai-container" class="relative mb-6 p-1 rounded-3xl transition-all">
-                        <div class="flex justify-between mb-2 items-center px-1">
-                            <div id="ai-loading" class="hidden animate-pulse text-[10px] font-bold text-blue-400">AI 分析中...</div>
-                            <div id="confidence-tag" class="hidden text-[9px] font-black px-2 py-0.5 rounded-full uppercase"></div>
-                        </div>
-                        <div class="flex gap-2">
-                            <div class="relative flex-1">
-                                <input id="ai-query" type="text" placeholder="大杯無糖鮮奶茶..." class="w-full bg-slate-50 border-2 border-dashed border-slate-200 rounded-2xl px-5 py-4 text-sm font-bold focus:border-blue-400 outline-none pr-12">
-                                <button onclick="startVoiceRecognition()" id="mic-btn" class="absolute right-3 top-3.5 text-xl">🎙️</button>
-                            </div>
-                            <button onclick="askGemini()" class="bg-slate-900 text-white px-5 rounded-2xl shadow-lg font-black">✨</button>
-                        </div>
-                        <p id="ai-reasoning" class="text-[10px] text-slate-400 mt-2 px-1 italic hidden text-left"></p>
+                <div id="ai-container" class="bento-card p-6 text-center">
+                    <div class="flex justify-between mb-4 px-1">
+                        <span class="text-[10px] font-black text-slate-300 uppercase italic">AI Smart Recognition</span>
+                        <div id="ai-loading" class="hidden animate-pulse text-[10px] font-bold text-blue-400">分析中...</div>
                     </div>
-
+                    <div class="flex gap-2 mb-4">
+                        <div class="relative flex-1">
+                            <input id="ai-query" type="text" placeholder="大杯無糖鮮奶茶..." class="w-full bg-slate-50 border-2 border-dashed border-slate-200 rounded-2xl px-5 py-4 text-sm font-bold outline-none pr-12">
+                            <button onclick="startVoiceRecognition()" id="mic-btn" class="absolute right-3 top-3.5 text-xl">🎙️</button>
+                        </div>
+                        <button onclick="askGemini()" id="ai-btn" class="bg-slate-900 text-white px-5 rounded-2xl font-black">✨</button>
+                    </div>
+                    
                     <input id="manual-name" type="text" placeholder="食物名稱" class="w-full bg-slate-50 border-none rounded-2xl px-5 py-4 text-sm font-bold mb-3">
                     <div class="flex bg-slate-100 p-1 rounded-2xl mb-4 gap-1">
                         <button id="type-meal" onclick="setEntryType('meal')" class="flex-1 py-2 rounded-xl text-[10px] font-black uppercase bg-white shadow-sm text-slate-900">Meal 🍽️</button>
                         <button id="type-drink" onclick="setEntryType('drink')" class="flex-1 py-2 rounded-xl text-[10px] font-black uppercase text-slate-400">Drink 🥤</button>
                     </div>
-                    <div class="flex gap-3 mb-4">
-                        <input id="manual-cal" type="number" placeholder="kcal" class="w-1/3 bg-slate-50 border-none rounded-xl py-3 text-sm text-center font-bold">
-                        <input id="manual-pro" type="number" placeholder="蛋白" class="w-1/3 bg-slate-50 border-none rounded-xl py-3 text-sm text-center font-bold">
-                        <input id="manual-carb" type="number" placeholder="碳水" class="w-1/3 bg-slate-50 border-none rounded-xl py-3 text-sm text-center font-bold">
+                    <div class="flex gap-3 mb-4 text-center">
+                        <input id="manual-cal" type="number" placeholder="kcal" class="w-1/3 bg-slate-50 border-none rounded-xl py-3 text-sm font-bold">
+                        <input id="manual-pro" type="number" placeholder="P" class="w-1/3 bg-slate-50 border-none rounded-xl py-3 text-sm font-bold">
+                        <input id="manual-carb" type="number" placeholder="C" class="w-1/3 bg-slate-50 border-none rounded-xl py-3 text-sm font-bold">
                     </div>
-                    <button onclick="saveAndAddMeal()" class="w-full bg-emerald-500 text-white py-4 rounded-2xl text-[11px] font-black uppercase shadow-lg shadow-emerald-200">儲存資料並紀錄</button>
+                    <button onclick="saveAndAddMeal()" class="w-full bg-emerald-500 text-white py-4 rounded-2xl text-[11px] font-black uppercase shadow-lg">儲存並紀錄</button>
                 </div>
             </div>
         </div>
 
-        <div id="page-data" class="hidden min-h-screen space-y-6 pt-4 pb-24">
-            <div class="flex justify-between items-end px-4">
-                <h2 class="font-montserrat text-3xl font-black text-slate-900 uppercase italic">Log & Mgmt</h2>
+        <div id="page-data" class="hidden min-h-screen space-y-6 pt-4 pb-24 text-left px-4">
+            <div class="flex justify-between items-end mb-6">
+                <h2 class="font-montserrat text-3xl font-black text-slate-900 italic">LOG</h2>
                 <button onclick="resetData()" class="text-[10px] font-black text-red-500 bg-red-50 px-4 py-2 rounded-full uppercase">Reset Day</button>
             </div>
             <div class="bento-card p-6">
-                <ul id="food-log" class="space-y-4 text-sm text-slate-700 font-bold"></ul>
+                <ul id="food-log" class="space-y-4 text-sm font-bold"></ul>
             </div>
-            <div class="px-2 space-y-3 text-left">
-                <label class="text-[10px] font-black text-slate-400 uppercase ml-4 italic">Custom Library</label>
+            <div class="space-y-3">
+                <label class="text-[10px] font-black text-slate-400 uppercase italic ml-2">Custom Library</label>
                 <div id="custom-meal-list" class="space-y-3"></div>
             </div>
         </div>
 
         <nav class="nav-capsule">
-            <button onclick="switchPage('home')" id="nav-home" class="nav-item active"><span class="text-2xl">📊</span><span class="text-[9px] font-black uppercase italic">Status</span></button>
-            <button onclick="switchPage('data')" id="nav-data" class="nav-item"><span class="text-2xl">⚙️</span><span class="text-[9px] font-black uppercase italic">Data</span></button>
+            <button onclick="switchPage('home')" id="nav-home" class="nav-item active">📊<br>STATUS</button>
+            <button onclick="switchPage('data')" id="nav-data" class="nav-item">⚙️<br>DATA</button>
         </nav>
     </div>
 
 <script>
-    // --- 1. 初始化與數據庫 ---
+    // --- 1. 核心數據與完整清單 ---
     let totalProtein = 0, totalCalories = 0, totalWater = 0, totalCarbs = 0;
     let isCardio = false, currentMode = 'rest', foodLog = [], customMeals = [];
     let currentEntryType = 'meal', editingIndex = -1;
 
-    const baseTDEE = 2232, targetProtein = 140, targetWater = 3000;
+    const baseTDEE = 2179, targetProtein = 140, targetWater = 3000;
     const calOffset = { rest: -300, chest: -200, back: -100, leg: 0 };
     const carbBase = { rest: 150, chest: 175, back: 200, leg: 250 };
-
     const PROXY_ENDPOINT = "/api/nutrition";
 
+    // 補齊所有 16 項預設清單
     const defaultMeals = {
         'sub-std': { n: 'Subway 鮮嫩雞柳', c: 350, p: 25, carb: 45 },
-        'sub-egg': { n: 'Subway 鮮嫩雞柳加嫩煎蛋', c: 382, p: 32.3, carb: 45 },
-        'sub-double': { n: 'Subway 鮮嫩雞柳加肉', c: 480, p: 45, carb: 48 },
-        'sub-beef': { n: 'Subway 嫩牛加嫩煎蛋', c: 520, p: 35, carb: 50 },
-        'sukiya': { n: 'Sukiya 肉大碗+湯+菜', c: 1050, p: 40, carb: 120 },
+        'sub-egg': { n: 'Subway 鮮嫩雞柳+蛋', c: 382, p: 32.3, carb: 45 },
+        'sub-double': { n: 'Subway 加肉雞柳', c: 480, p: 45, carb: 48 },
+        'sub-beef': { n: 'Subway 嫩牛加蛋', c: 520, p: 35, carb: 50 },
+        'sukiya': { n: 'Sukiya 肉大碗套餐', c: 950, p: 35, carb: 100 },
         'tofu': { n: '涓豆腐泡菜鍋', c: 650, p: 40, carb: 35 },
-        'beef-noodle': { n: '牛肉麵+2蛋+青菜', c: 950, p: 55, carb: 85 },
-        'pot-chicken': { n: '個人火鍋雞腿+3蛋', c: 750, p: 55, carb: 15 },
+        'beef-noodle': { n: '牛肉麵套餐', c: 950, p: 55, carb: 85 },
+        'pot-chicken': { n: '個人雞腿火鍋', c: 750, p: 55, carb: 15 },
         'convi-chicken': { n: '超商兩塊雞胸肉', c: 260, p: 54, carb: 4 },
-        'bbq-bomb': { n: '個人燒肉組合+飯', c: 1450, p: 85, carb: 70 }
+        'bbq-bomb': { n: '燒肉組合+飯', c: 1450, p: 85, carb: 70 }
     };
 
     const defaultDrinks = {
@@ -186,108 +182,91 @@
         'gg-2': { n: '果果蛋白 2份', c: 205, p: 36.8, carb: 6 },
         'baseu': { n: 'BASE&U 紅茶牛乳', c: 148.8, p: 22.2, carb: 9.6 },
         'soy': { n: '濃豆漿', c: 190, p: 19.1, carb: 7.9 },
-        'oat': { n: '桂格無糖燕麥飲', c: 125, p: 3.8, carb: 21.5 }
+        'oat': { n: '無糖燕麥飲', c: 125, p: 3.8, carb: 21.5 }
     };
 
-    // --- 2. 核心功能 ---
+    // --- 2. 頁面控制與 UI 引擎 ---
     function hapticFeedback() { if (navigator.vibrate) navigator.vibrate(20); }
 
     function switchPage(p) {
         document.getElementById('page-home').style.display = (p === 'home' ? 'block' : 'none');
         document.getElementById('page-data').style.display = (p === 'data' ? 'block' : 'none');
         document.getElementById('nav-home').classList.toggle('active', p === 'home');
-        document。getElementById('nav-data').classList.toggle('active', p === 'data');
+        document.getElementById('nav-data').classList.toggle('active', p === 'data');
     }
 
     function setMode(m) { currentMode = m; updateUI(); }
     function toggleCardio() { isCardio = !isCardio; updateUI(); }
-    function addWater(ml) { totalWater += ml; foodLog.push({ name: '💧 補水', val: "+" + ml + "ml" }); updateUI(); }
+    
+    function addWater(ml) { 
+        totalWater += ml; 
+        foodLog.push({ name: '💧 補水', val: "+"+ml+"ml", c:0, p:0, carb:0, w:ml }); 
+        updateUI(); 
+    }
 
     function setEntryType(t) {
         currentEntryType = t;
         const mBtn = document.getElementById('type-meal'), dBtn = document.getElementById('type-drink');
-        if (t === 'meal') {
-            mBtn.className = "flex-1 py-2 rounded-xl text-[10px] font-black uppercase bg-white shadow-sm text-slate-900";
-            dBtn.className = "flex-1 py-2 rounded-xl text-[10px] font-black uppercase text-slate-400";
+        const active = "flex-1 py-2 rounded-xl text-[10px] font-black uppercase bg-white shadow-sm text-slate-900";
+        const inactive = "flex-1 py-2 rounded-xl text-[10px] font-black uppercase text-slate-400";
+        mBtn.className = (t === 'meal' ? active : inactive);
+        dBtn.className = (t === 'drink' ? active : inactive);
+    }
+
+    // --- 3. 教練建議邏輯 (修正點) ---
+    function updateCoach(calT) {
+        const cText = document.getElementById('coach-text');
+        const cEmoji = document.getElementById('coach-emoji');
+        if (!cText || !cEmoji) return;
+
+        if (totalCalories === 0) {
+            cText.innerText = "「今天還沒紀錄喔！準備好要吃什麼了嗎？」";
+            cEmoji.innerText = "☕";
+        } else if (totalProtein < targetProtein * 0.7) {
+            cText.innerText = "「蛋白質還不太夠，記得多補充蛋白質！」";
+            cEmoji.innerText = "🍗";
+        } else if (totalCalories > calT) {
+            cText.innerText = "「熱量超標了，今天建議增加有氧強度！」";
+            cEmoji.innerText = "🚨";
         } else {
-            dBtn.className = "flex-1 py-2 rounded-xl text-[10px] font-black uppercase bg-white shadow-sm text-slate-900";
-            mBtn.className = "flex-1 py-2 rounded-xl text-[10px] font-black uppercase text-slate-400";
+            cText.innerText = "「目前的營養節奏非常完美，繼續保持！」";
+            cEmoji.innerText = "💪";
         }
     }
 
-    // --- 3. AI 與 語音 ---
+    // --- 4. AI 功能 ---
+    async function askGemini() {
+        const q = document.getElementById('ai-query').value.trim();
+        if (!q) return;
+        document.getElementById('ai-loading').classList.remove('hidden');
+        const btn = document.getElementById('ai-btn'); btn.innerText = "⏳";
+
+        try {
+            const resp = await fetch(`${PROXY_ENDPOINT}?food=${encodeURIComponent(q)}`);
+            const data = await resp.json();
+            const text = data.candidates[0].content.parts[0].text;
+            const res = JSON.parse(text.match(/\{.*\}/s)[0]);
+            
+            document.getElementById('manual-name').value = res.name;
+            document.getElementById('manual-cal').value = res.kcal;
+            document.getElementById('manual-pro').value = res.protein;
+            document.getElementById('manual-carb').value = res.carbs;
+            hapticFeedback();
+        } catch (e) { alert("AI 分析失敗，請檢查 Vercel 部署。"); console.error(e); } 
+        finally { document.getElementById('ai-loading').classList.add('hidden'); btn.innerText = "✨"; }
+    }
+
     function startVoiceRecognition() {
         const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
-        if (!SpeechRec) { alert("不支援語音"); return; }
-        const rec = new SpeechRec();
-        rec.lang = 'zh-TW';
+        if (!SpeechRec) return;
+        const rec = new SpeechRec(); rec.lang = 'zh-TW';
         rec.onstart = () => { document.getElementById('mic-btn').innerText = '🛑'; hapticFeedback(); };
         rec.onresult = (e) => { document.getElementById('ai-query').value = e.results[0][0].transcript; };
         rec.onend = () => { document.getElementById('mic-btn').innerText = '🎙️'; };
         rec.start();
     }
 
-    async function askGemini() {
-    const q = document.getElementById('ai-query').value.trim();
-    if (!q) return;
-
-    document.getElementById('ai-loading').classList.remove('hidden');
-    const btn = document.getElementById('ai-btn');
-    if(btn) btn.innerText = "⏳";
-
-    try {
-        // 💡 確保這裡呼叫的是相對路徑
-        const resp = await fetch(`/api/nutrition?food=${encodeURIComponent(q)}`);
-        
-        // 如果 404 或 500，直接報錯
-        if (!resp.ok) {
-            const errorData = await resp.json();
-            throw new Error(errorData.error || `伺服器連線失敗: ${resp.status}`);
-        }
-
-        const data = await resp.json();
-        console.log("AI 原始回傳數據:", data); // 👈 偵錯用：按下 F12 看這裡
-
-        // 💡 加入安全檢查，防止 candidates[0] 讀不到導致當機
-        if (!data.candidates || data.candidates.length === 0) {
-            throw new Error("AI 沒有回傳有效內容，可能是觸發了安全過濾。");
-        }
-
-        const text = data.candidates[0].content.parts[0].text;
-        
-        // 嘗試解析 JSON 字串
-        let res;
-        try {
-            res = JSON.parse(text.match(/\{.*\}/s)[0]);
-        } catch (parseError) {
-            console.error("JSON 解析失敗，原始文字為:", text);
-            throw new Error("AI 回傳格式異常，無法解析數值。");
-        }
-        
-        // 填入 UI
-        document.getElementById('manual-name').value = res.name;
-        document.getElementById('manual-cal').value = res.kcal || res.calories || 0;
-        document.getElementById('manual-pro').value = res.protein || 0;
-        document.getElementById('manual-carb').value = res.carbs || 0;
-        
-        const reasonEl = document.getElementById('ai-reasoning');
-        if(reasonEl) {
-            reasonEl.innerText = "分析成功！" + (res.reasoning || "");
-            reasonEl.classList.remove('hidden');
-        }
-        
-        hapticFeedback();
-
-    } catch (e) {
-        console.error("前端錯誤詳情:", e);
-        alert("分析失敗: " + e.message);
-    } finally {
-        document.getElementById('ai-loading').classList.add('hidden');
-        if(btn) btn.innerText = "✨";
-    }
-}
-
-    // --- 4. 渲染邏輯 ---
+    // --- 5. 數據核心 ---
     function updateUI() {
         const calT = baseTDEE + calOffset[currentMode] + (isCardio ? 250 : 0);
         const carbT = carbBase[currentMode] + (isCardio ? 40 : 0);
@@ -300,69 +279,92 @@
 
         const setBar = (id, cur, tar, base) => {
             const el = document.getElementById(id);
+            if (!el) return;
             const per = Math.min((cur / tar) * 100, 100);
             el.style.width = per + "%";
             el.className = "h-full progress-bar " + (cur >= tar ? 'bar-overlimit' : (cur >= tar * 0.9 ? 'bar-warning' : base));
         };
         setBar('calories-bar', totalCalories, calT, 'bg-emerald-500');
-        setBar('protein-bar'， totalProtein, targetProtein, 'bg-blue-500');
+        setBar('protein-bar', totalProtein, targetProtein, 'bg-blue-500');
         setBar('carbs-bar', totalCarbs, carbT, 'bg-amber-500');
         setBar('water-bar', totalWater, targetWater, 'bg-cyan-400');
 
-        ['rest', 'chest', 'back', 'leg'].forEach(m => document.getElementById('btn-' + m).className = (m === currentMode ? "mode-btn text-xs py-3.5 font-bold uppercase mode-active" : "mode-btn text-xs py-3.5 font-bold uppercase"));
+        ['rest', 'chest', 'back', 'leg'].forEach(m => {
+            const b = document.getElementById('btn-' + m);
+            if(b) b.className = (m === currentMode ? "mode-btn text-xs py-3.5 font-bold uppercase mode-active" : "mode-btn text-xs py-3.5 font-bold uppercase");
+        });
         document.getElementById('cardio-circle').style.transform = isCardio ? 'translateX(24px)' : 'translateX(0)';
         document.getElementById('btn-cardio').className = isCardio ? "bg-emerald-500 w-12 h-6 rounded-full relative transition-all" : "bg-slate-700 w-12 h-6 rounded-full relative transition-all";
         
         renderLists();
-        updateCoach(calT, carbT);
+        updateCoach(calT); // 👈 教練發聲
         save();
     }
 
     function renderLists() {
+        // 餐點選單
         const mSel = document.getElementById('meal-select');
         mSel.innerHTML = '<option value="">🥗 常用餐點...</option>';
-        Object.keys(defaultMeals).forEach(k => {
-            const o = document.createElement('option'); o.value = "default-" + k; o.innerText = defaultMeals[k].n; mSel.appendChild(o);
-        });
-        const customM = customMeals.filter(m => !m.type || m.type === 'meal');
-        if(customM.length > 0) {
-            const s = document.createElement('option'); s.disabled = true; s.innerText = "── 我的自定義 ──"; mSel.appendChild(s);
-            customMeals.forEach((m, i) => { if(!m.type || m.type === 'meal') { const o = document.createElement('option'); o.value = "custom-" + i; o.innerText = m.n; mSel.appendChild(o); }});
-        }
+        Object.keys(defaultMeals).forEach(k => { mSel.appendChild(new Option(defaultMeals[k].n, "default-"+k)); });
+        customMeals.forEach((m, i) => { if(!m.type || m.type === 'meal') mSel.appendChild(new Option(m.n, "custom-"+i)); });
 
+        // 飲品選單
         const dSel = document.getElementById('drink-select');
         dSel.innerHTML = '<option value="">🥤 常用飲品...</option>';
-        Object.keys(defaultDrinks).forEach(k => {
-            const o = document.createElement('option'); o.value = "default-" + k; o.innerText = defaultDrinks[k].n; dSel.appendChild(o);
-        });
+        Object.keys(defaultDrinks).forEach(k => { dSel.appendChild(new Option(defaultDrinks[k].n, "default-"+k)); });
+        customMeals.forEach((m, i) => { if(m.type === 'drink') dSel.appendChild(new Option(m.n, "custom-"+i)); });
 
-        document.getElementById('custom-meal-list').innerHTML = customMeals.map((m, i) => 
-            '<div class="flex justify-between items-center bg-white p-5 rounded-[2.5rem] border border-slate-100 shadow-sm mb-3">' +
-            '<div class="flex flex-col text-left"><span class="text-sm font-black text-slate-700">' + (m.type==='drink'?'🥤':'🍽️') + ' ' + m.n + '</span>' +
-            '<span class="text-[9px] text-slate-400 font-bold uppercase mt-1">P:' + m.p + ' | C:' + m.carb + ' | ' + m.c + 'k</span></div>' +
-            '<div class="flex gap-2"><button onclick="editMeal(' + i + ')" class="bg-slate-100 text-slate-400 w-10 h-10 rounded-xl">✏️</button>' +
-            '<button onclick="deleteMeal(' + i + ')" class="bg-red-50 text-red-400 w-10 h-10 rounded-xl">🗑️</button></div></div>').join('');
+        // LOG 列表 (含精準刪除水份)
+        document.getElementById('food-log').innerHTML = foodLog.map((item, index) => `
+            <li class="flex justify-between items-center border-b border-slate-50 py-4 italic text-left">
+                <div class="flex flex-col">
+                    <span class="text-slate-700">${item.name}</span>
+                    <span class="text-[10px] text-slate-400 font-bold">${item.val}</span>
+                </div>
+                <button onclick="deleteLogItem(${index})" class="text-red-400 bg-red-50 w-8 h-8 rounded-full flex items-center justify-center text-xs">✕</button>
+            </li>`).reverse().join('');
 
-        document.getElementById('food-log').innerHTML = foodLog.slice().reverse().map(i => '<li class="flex justify-between border-b border-slate-50 py-4 italic"><span>' + i.name + '</span><span class="text-slate-400">' + i.val + '</span></li>').join('');
+        // 自定義庫
+        document.getElementById('custom-meal-list').innerHTML = customMeals.map((m, i) => `
+            <div class="flex justify-between items-center bg-white p-5 rounded-[2.5rem] border border-slate-100 shadow-sm mb-3">
+                <div class="flex flex-col text-left font-black">
+                    <span class="text-sm text-slate-700">${m.type==='drink'?'🥤':'🍽️'} ${m.n}</span>
+                    <span class="text-[9px] text-slate-400">P:${m.p} | C:${m.carb} | ${m.c}k</span>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="editMeal(${i})" class="bg-slate-100 text-slate-400 w-10 h-10 rounded-xl flex items-center justify-center">✏️</button>
+                    <button onclick="deleteMeal(${i})" class="bg-red-50 text-red-400 w-10 h-10 rounded-xl flex items-center justify-center">🗑️</button>
+                </div>
+            </div>`).join('');
     }
 
-    function updateCoach(calT, carbT) {
-        const cText = document.getElementById('coach-text'), cEmoji = document.getElementById('coach-emoji');
-        if (totalCalories === 0) { cText.innerText = "「今天還沒紀錄喔！」"; cEmoji.innerText = "☕"; return; }
-        if (totalCalories > calT) { cText.innerText = "「熱量爆表了！去有氧！」"; cEmoji.innerText = "🚨"; return; }
-        cText.innerText = "「目前的節奏很好，保持住！」"; cEmoji.innerText = "💪";
+    function addEntry(n, c, p, carb) {
+        totalCalories += c; totalProtein += p; totalCarbs += carb;
+        foodLog.push({ name: n, val: `${p}P / ${c}k`, c, p, carb, w: 0 });
+        updateUI();
     }
 
-    // --- 5. 數據處理 ---
-    function addEntry(n, c, p, carb) { totalCalories += c; totalProtein += p; totalCarbs += carb; foodLog.push({ name: n, val: "P:" + p + " | C:" + carb + " | " + c + "k" }); updateUI(); }
+    window.deleteLogItem = function(index) {
+        if(confirm("確定刪除紀錄？熱量與水份將同步扣除。")) {
+            const it = foodLog[index];
+            totalCalories = Math.max(0, totalCalories - (it.c||0));
+            totalProtein = Math.max(0, totalProtein - (it.p||0));
+            totalCarbs = Math.max(0, totalCarbs - (it.carb||0));
+            totalWater = Math.max(0, totalWater - (it.w||0)); // 👈 水份同步扣除
+            foodLog.splice(index, 1);
+            updateUI();
+        }
+    };
 
     window.saveAndAddMeal = function() {
-        const n = document.getElementById('manual-name').value;
-        const c = parseFloat(document.getElementById('manual-cal').value)||0, p = parseFloat(document.getElementById('manual-pro').value)||0, carb = parseFloat(document.getElementById('manual-carb').value)||0;
+        const n = document.getElementById('manual-name').value.trim();
+        const c = parseFloat(document.getElementById('manual-cal').value)||0;
+        const p = parseFloat(document.getElementById('manual-pro').value)||0;
+        const carb = parseFloat(document.getElementById('manual-carb').value)||0;
         if(!n) return;
         if(editingIndex > -1) { customMeals[editingIndex] = { n, c, p, carb, type: currentEntryType }; editingIndex = -1; }
         else { customMeals.push({ n, c, p, carb, type: currentEntryType }); }
-        addEntry((currentEntryType==='drink'?'🥤':'🍽️') + " " + n, c, p, carb);
+        addEntry((currentEntryType==='drink'?'🥤':'🍽️')+" "+n, c, p, carb);
         ['manual-name', 'manual-cal', 'manual-pro', 'manual-carb'].forEach(id => document.getElementById(id).value = "");
     };
 
@@ -370,54 +372,52 @@
         const v = document.getElementById('meal-select').value; if(!v) return;
         const m = v.startsWith('default-') ? defaultMeals[v.replace('default-','')] : customMeals[v.replace('custom-','')];
         addEntry("🍽️ " + m.n, m.c, m.p, m.carb);
-    };
-
+        document.getElementById('meal-select').value = "";
+    }
     window.recordDrink = function() {
         const v = document.getElementById('drink-select').value; if(!v) return;
         const m = v.startsWith('default-') ? defaultDrinks[v.replace('default-','')] : customMeals[v.replace('custom-','')];
         addEntry("🥤 " + m.n, m.c, m.p, m.carb);
+        document.getElementById('drink-select').value = "";
+    }
+
+    window.editMeal = function(i) {
+        editingIndex = i; const m = customMeals[i];
+        document.getElementById('manual-name').value = m.n;
+        document.getElementById('manual-cal').value = m.c;
+        document.getElementById('manual-pro').value = m.p;
+        document.getElementById('manual-carb').value = m.carb;
+        setEntryType(m.type||'meal');
+        switchPage('home');
     };
 
-    window.editMeal = function(i) { editingIndex = i; const m = customMeals[i]; document.getElementById('manual-name').value = m.n; document.getElementById('manual-cal').value = m.c; document.getElementById('manual-pro').value = m.p; document.getElementById('manual-carb').value = m.carb; setEntryType(m.type||'meal'); switchPage('home'); };
-    window.deleteMeal = function(i) { if(confirm("確定刪除？")) { customMeals.splice(i, 1); updateUI(); } };
+    window.deleteMeal = function(i) { if(confirm("刪除自定義項目？")) { customMeals.splice(i, 1); updateUI(); } }
+    window.resetData = function() { if(confirm("確定重置今日數據？")) { totalCalories=0; totalProtein=0; totalCarbs=0; totalWater=0; foodLog=[]; updateUI(); } }
 
-    // --- 關鍵修復：自動歸零邏輯 ---
+    // --- 6. 存取與跨日自動重置 ---
     function save() { 
-        const today = new Date().toLocaleDateString('zh-TW'); // 取得今日日期 (例如 "2026/4/23")
-        localStorage.setItem('panda_fit_v28', JSON.stringify({ 
-            totalProtein, totalCalories, totalWater, totalCarbs, 
-            isCardio, currentMode, foodLog, customMeals,
-            lastUpdateDate: today // 存入日期戳記
+        localStorage.setItem('panda_fit_v36', JSON.stringify({ 
+            totalProtein, totalCalories, totalWater, totalCarbs, foodLog, customMeals, currentMode, isCardio,
+            lastDate: new Date().toLocaleDateString('zh-TW') 
         })); 
     }
-
     function load() {
-        try {
-            const s = localStorage.getItem('panda_fit_v28');
-            if(s) {
-                const d = JSON.parse(s);
-                const today = new Date().toLocaleDateString('zh-TW');
-
-                // 比對日期，如果不是今天，則重置每日數值
-                if (d.lastUpdateDate && d.lastUpdateDate !== today) {
-                    totalProtein = 0; totalCalories = 0; totalWater = 0; totalCarbs = 0;
-                    foodLog = [];
-                    // 以下項目保留，不需要每日重置
-                    isCardio = false; 
-                    currentMode = d.currentMode || 'rest';
-                    customMeals = d.customMeals || [];
-                } else {
-                    // 同一天，正常載入
-                    totalProtein = d.totalProtein||0; totalCalories = d.totalCalories||0; totalWater = d.totalWater||0; totalCarbs = d.totalCarbs||0;
-                    isCardio = d.isCardio||false; currentMode = d.currentMode||'rest'; foodLog = d.foodLog||[]; customMeals = d.customMeals||[];
-                }
+        const s = localStorage.getItem('panda_fit_v36');
+        if(s) {
+            const d = JSON.parse(s);
+            const today = new Date().toLocaleDateString('zh-TW');
+            if(d.lastDate && d.lastDate !== today) {
+                // 跨日自動歸零
+                totalProtein = 0; totalCalories = 0; totalWater = 0; totalCarbs = 0; foodLog = [];
+                isCardio = false; customMeals = d.customMeals || []; currentMode = d.currentMode || 'rest';
+            } else {
+                totalProtein = d.totalProtein||0; totalCalories = d.totalCalories||0; totalWater = d.totalWater||0; totalCarbs = d.totalCarbs||0;
+                isCardio = d.isCardio||false; currentMode = d.currentMode||'rest'; foodLog = d.foodLog||[]; customMeals = d.customMeals||[];
             }
-        } catch(e) { console.log("讀取失敗"); }
+        }
+        updateUI();
     }
-
-    function resetData() { if(confirm("確定重置今日數據？")) { totalCalories=0; totalProtein=0; totalCarbs=0; totalWater=0; foodLog=[]; updateUI(); } }
-
-    load(); updateUI();
+    load();
 </script>
 </body>
 </html>
