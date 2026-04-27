@@ -161,7 +161,7 @@
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('/sw.js')
-                .then(reg => console.log('PanDiet PWA 註冊成功'))
+                。键，然后(reg => console.log('PanDiet PWA 註冊成功'))
                 .catch(err => console.log('PWA 註冊失敗', err));
         });
     }
@@ -205,7 +205,7 @@
         document.getElementById('page-home').style.display = (p === 'home' ? 'block' : 'none');
         document.getElementById('page-data').style.display = (p === 'data' ? 'block' : 'none');
         document.getElementById('nav-home').classList.toggle('active', p === 'home');
-        document.getElementById('nav-data').classList.toggle('active', p === 'data');
+        document。getElementById('nav-data').classList.toggle('active', p === 'data');
     }
 
     function setMode(m) { currentMode = m; updateUI(); }
@@ -248,40 +248,55 @@
     }
 
     // --- 4. AI 功能 ---
-    async function askGemini() {
+ async function askGemini() {
     const q = document.getElementById('ai-query').value.trim();
     if (!q) return;
 
-    document.getElementById('ai-loading').classList.remove('hidden');
-    
+    document。getElementById('ai-loading').classList.remove('hidden');
+    const btn = document.getElementById('ai-btn'); if(btn) btn.innerText = "⏳";
+
     try {
         const resp = await fetch(`/api/nutrition?food=${encodeURIComponent(q)}`);
+        const data = await resp.json();
         
-        // 💡 關鍵修正：先拿文字內容，避免解析 JSON 直接噴錯
-        const rawText = await resp.text();
-        console.log("原始回傳內容:", rawText);
+        // 🚀 【關鍵偵錯】在主控台印出包裹內容
+        console.log("AI 原始回傳數據:", data);
 
-        let data;
-        try {
-            data = JSON.parse(rawText);
-        } catch (e) {
-            throw new Error("伺服器回傳了非 JSON 格式的內容，請查看 Console 紀錄。");
+        // 💡 第一層檢查：如果資料結構不對
+        if (!data || !data.candidates || data.candidates.length === 0) {
+            // 如果後端有傳回自定義的錯誤訊息，就顯示出來
+            const errorMsg = data.reasoning || (data.error ? data.error.message : "AI 沒有回傳有效內容");
+            throw new Error(errorMsg);
         }
 
-        const aiText = data.candidates[0].content.parts[0].text;
-        const res = JSON.parse(aiText.match(/\{.*\}/s)[0]);
+        const text = data.candidates[0].content.parts[0].text;
         
-        document.getElementById('manual-name').value = res.name;
-        document.getElementById('manual-cal').value = res.kcal;
-        document.getElementById('manual-pro').value = res.protein;
-        document.getElementById('manual-carb').value = res.carbs;
+        // 💡 第二層檢查：嘗試解析 JSON
+        let res;
+        try {
+            const jsonMatch = text.match(/\{.*\}/s);
+            if (!jsonMatch) throw new Error("AI 回傳文字中找不到 JSON 格式");
+            res = JSON.parse(jsonMatch[0]);
+        } catch (parseError) {
+            console.error("JSON 解析失敗，原始文字為:", text);
+            throw new Error("AI 回傳格式異常，請再試一次。");
+        }
         
-        hapticFeedback();
+        // 填入 UI (加入預設值防止當機)
+        document.getElementById('manual-name').value = res.name || q;
+        document.getElementById('manual-cal').value = res.kcal || 0;
+        document.getElementById('manual-pro').value = res.protein || 0;
+        document.getElementById('manual-carb').value = res.carbs || 0;
+        
+        if (navigator.vibrate) navigator.vibrate(20);
+
     } catch (e) {
-        console.error("DEBUG:", e);
+        console.error("前端錯誤詳情:", e);
+        // 直接在畫面上告訴妳發生什麼事
         alert("分析失敗: " + e.message);
     } finally {
         document.getElementById('ai-loading').classList.add('hidden');
+        if(btn) btn.innerText = "✨";
     }
 }
     function startVoiceRecognition() {
